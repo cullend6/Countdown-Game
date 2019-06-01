@@ -17,8 +17,18 @@ function App() {
   function numbersSubmitted(e){
     e.preventDefault();
 
+    const bigNumberChoices = [10, 25, 50, 75, 100];
+
     if( (+bigNums + +smallNums) !== 6){
       sethidden(true);
+    }
+    else if (+bigNums === 2){
+      setnumberArray([bigNumberChoices[Math.floor(Math.random() * 5)], bigNumberChoices[Math.floor(Math.random() * 5)],Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
+      sethidden(false);
+    }
+    else if (+bigNums === 1){
+      setnumberArray([bigNumberChoices[Math.floor(Math.random() * 5)],Math.ceil(Math.random() * 9) ,Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
+      sethidden(false);
     }
     else {
       setnumberArray([Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
@@ -104,10 +114,6 @@ function App() {
          <option value="0">0</option>
          <option value="1">1</option>
          <option value="2">2</option>
-         <option value="3">3</option>
-         <option value="4">4</option>
-         <option value="5">5</option>
-         <option value="6">6</option>
         </select> <br />
 
         <label>Choose Small Numbers:</label> <br />
