@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import './App.css';
+import Timer from './components/Timer.component';
 
 function App() {
 
-  const [numberArray, setnumberArray] = useState([]);
-  const [bigNums, setbigNums] = useState(0);
-  const [smallNums, setsmallNums] = useState(0);
-  const [hidden, sethidden] = useState(true);
-  const [solution, setsolution] = useState("");
-  const [target, settarget] = useState(0);
-  const [hideAnswer, sethideAnswer] = useState(true);
-  const [targetIsHidden, settargetIsHidden] = useState(true);
+  const [numberArray, setNumberArray] = useState([]);
+  const [bigNums, setBigNums] = useState(0);
+  const [solution, setSolution] = useState("");
+  const [target, setTarget] = useState(0);
+
+
+  const [listHasBeenGenerated, setListHasBeenGenerated] = useState(false);
+  const [targetHasBeenGenerated, setTargetHasBeenGenerated] = useState(false);
+  const [answerShouldBeShown, setAnswerShouldBeShown] = useState(false);
+  const [timerShouldBeDisplayed, setTimerShouldBeDisplayed] = useState(false);
 
   const operators = ["+","-","/","*"];
 
@@ -19,21 +22,22 @@ function App() {
 
     const bigNumberChoices = [10, 25, 50, 75, 100];
 
-    if( (+bigNums + +smallNums) !== 6){
-      sethidden(true);
-    }
-    else if (+bigNums === 2){
-      setnumberArray([bigNumberChoices[Math.floor(Math.random() * 5)], bigNumberChoices[Math.floor(Math.random() * 5)],Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
-      sethidden(false);
+    if (+bigNums === 2){
+      setNumberArray([bigNumberChoices[Math.floor(Math.random() * 5)], bigNumberChoices[Math.floor(Math.random() * 5)],Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
     }
     else if (+bigNums === 1){
-      setnumberArray([bigNumberChoices[Math.floor(Math.random() * 5)],Math.ceil(Math.random() * 9) ,Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
-      sethidden(false);
+      setNumberArray([bigNumberChoices[Math.floor(Math.random() * 5)],Math.ceil(Math.random() * 9) ,Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
     }
     else {
-      setnumberArray([Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
-      sethidden(false);
+      setNumberArray([Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
     }
+
+    setListHasBeenGenerated(true);
+
+    //Revert Progress
+    setTargetHasBeenGenerated(false);
+    setAnswerShouldBeShown(false);
+    setTimerShouldBeDisplayed(false);
   }
 
 
@@ -75,34 +79,33 @@ function App() {
 
     }
 
+    //Set Target and save solution
+    setTarget(eval(expression));
+    setSolution(expression);
 
-    settarget(eval(expression));
-  
-    setsolution(expression);
+    //Show new buttons
+    setTargetHasBeenGenerated(true);
 
-    settargetIsHidden(false);
+    //Revert progress
+    setAnswerShouldBeShown(false);
+    setTimerShouldBeDisplayed(false);
+    
   }
 
 
   //take values from form and set state
   function changeBigNums(e){
-    setbigNums(e.target.value);
+    setBigNums(e.target.value);
   }
-
-  function changeSmallNums(e){
-    setsmallNums(e.target.value);
-  }
-
-  
 
   //render hidden numbers
   function renderNumbers(){  
      return ( 
        numberArray.map(numberArray => (
-        <div>{numberArray}</div>
+        <div className="Numbers">{numberArray}</div>
        ))
      )
-    }
+  }
 
   return (
     <div className="App">
@@ -116,35 +119,25 @@ function App() {
          <option value="2">2</option>
         </select> <br />
 
-        <label>Choose Small Numbers:</label> <br />
-        <select id="SmallNums" onChange={changeSmallNums}>
-         <option value="0">0</option>
-         <option value="1">1</option>
-         <option value="2">2</option>
-         <option value="3">3</option>
-         <option value="4">4</option>
-         <option value="5">5</option>
-         <option value="6">6</option>
-        </select>
-
-        <br />
         <input type="submit" value="Go"></input>
 
       </form>   
       </div>
       <div>
-        {!hidden ? renderNumbers() : <div>Please make sure the numbers add up to 6</div>}
+        {listHasBeenGenerated ? renderNumbers() : null}
       </div>
 
-
-
-      {!hidden ? <button onClick={createProblem}>Create target</button> : null}
+      {listHasBeenGenerated ? <div className="Create Target Button"><button onClick={createProblem}>Create target</button></div> : null }
       
-      <br />
-      {targetIsHidden ? null : target}
+      {targetHasBeenGenerated ? target : null}
+      
+      {targetHasBeenGenerated ? <div className="Show Hide Answer Button"><button onClick={() => setAnswerShouldBeShown(!answerShouldBeShown)}>{answerShouldBeShown ? "Hide" : "Show"} Answer</button></div> : null }
 
-      <br />
-      {!hidden ? (hideAnswer ? <button onClick={() => sethideAnswer(false)}>Reveal Answer</button> : <div>{solution}</div>) : null}
+      {answerShouldBeShown ? <div className="Answer">{solution}</div> : null }
+
+      {targetHasBeenGenerated ? <div className="Timer Button"><button onClick={() => setTimerShouldBeDisplayed(!timerShouldBeDisplayed)}>{timerShouldBeDisplayed ? "Stop" : "Start"} Timer</button></div> : null}
+
+      {timerShouldBeDisplayed ? <Timer /> : null}
     </div>
   );
 }
