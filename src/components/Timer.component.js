@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import CountdownMusic from '../TheCountdownClock.mp3'
+//import Sound from 'react-sound';
+
 
 function Timer() {
     const [time, setTime] = useState(30);
     const [output, setOutput] = useState("");
 
-   useEffect(() => {
+    useEffect(() => {
 
     if(time > -1){
         var timerID = setInterval( () => tick(), 1000 );
@@ -26,9 +29,23 @@ function Timer() {
       setOutput(time);
      }
    
+     function playAudio(){
+       
+      let sound = new Audio(CountdownMusic);
+
+      let soundPromise = sound.play();
+
+      soundPromise.then(() => console.log("playing")).catch((err) => console.log(err));
+
+     }
+
+
      return (
         <div className="TimerText">
           {output}
+
+          
+
         </div>
     )
 }  

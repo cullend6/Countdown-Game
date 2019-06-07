@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Timer from './components/Timer.component';
+import CountdownMusic from "./TheCountdownClock.mp3"
 
 function App() {
 
@@ -93,6 +94,41 @@ function App() {
   }
 
 
+  function playAudio() {
+    let audio = new Audio("./TheCountdownClock.mp3");
+    let audioPromise = audio.play();    
+
+    if (audioPromise !== undefined) {
+      console.log("Defined");
+      audioPromise.then(_ => {
+        console.log("Autoplay");
+        // Autoplay started!
+      }).catch(error => {
+        // Autoplay was prevented.
+        // Show a "Play" button so that user can start playback.
+        console.log(error);
+      });
+    }
+  }
+  
+  function startTimer(){
+    playAudio();
+
+    return (
+      <Timer />
+    )
+  }
+
+  function playAudio(){
+       
+    let sound = new Audio(CountdownMusic);
+
+    let soundPromise = sound.play();
+
+    soundPromise.then(() => console.log("playing")).catch((err) => console.log(err));
+
+   }
+
   //take values from form and set state
   function changeBigNums(e){
     setBigNums(e.target.value);
@@ -113,31 +149,33 @@ function App() {
       <h1>Choose Numbers</h1>
       <form onSubmit={numbersSubmitted}>
         <label>Choose Big Numbers:</label> <br />
-        <select id="BigNums" onChange={changeBigNums}>
+        <select id="BigNums" type="radio" onChange={changeBigNums}>
          <option value="0">0</option>
          <option value="1">1</option>
          <option value="2">2</option>
         </select> <br />
-
         <input type="submit" value="Go"></input>
-
       </form>   
+
+      <br />
       </div>
       <div>
+        
         {listHasBeenGenerated ? renderNumbers() : null}
       </div>
 
-      {listHasBeenGenerated ? <div className="Create Target Button"><button onClick={createProblem}>Create target</button></div> : null }
+      {listHasBeenGenerated ? <div><button className="Button" onClick={createProblem}>Create target</button></div> : null }
       
       {targetHasBeenGenerated ? target : null}
       
-      {targetHasBeenGenerated ? <div className="Show Hide Answer Button"><button onClick={() => setAnswerShouldBeShown(!answerShouldBeShown)}>{answerShouldBeShown ? "Hide" : "Show"} Answer</button></div> : null }
+      {targetHasBeenGenerated ? <div><button className="Button" onClick={() => setAnswerShouldBeShown(!answerShouldBeShown)}>{answerShouldBeShown ? "Hide" : "Show"} Answer</button></div> : null }
 
       {answerShouldBeShown ? <div className="Answer">{solution}</div> : null }
 
-      {targetHasBeenGenerated ? <div className="Timer Button"><button onClick={() => setTimerShouldBeDisplayed(!timerShouldBeDisplayed)}>{timerShouldBeDisplayed ? "Stop" : "Start"} Timer</button></div> : null}
+      {targetHasBeenGenerated ? <div><button className="Button" onClick={() => setTimerShouldBeDisplayed(!timerShouldBeDisplayed)}>{timerShouldBeDisplayed ? "Stop" : "Start"} Timer</button></div> : null}
 
-      {timerShouldBeDisplayed ? <Timer /> : null}
+      {timerShouldBeDisplayed ? startTimer() : null}
+
     </div>
   );
 }
