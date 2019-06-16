@@ -126,7 +126,7 @@ function NumbersGame(){
   }
   
   function startTimer(){
-    playAudio();
+    //playAudio();
 
     return (
       <Timer />
@@ -151,8 +151,8 @@ function NumbersGame(){
   //render hidden numbers
   function renderNumbers(){  
      return ( 
-       numberArray.map(numberArray => (
-        <div className="Numbers">{numberArray}</div>
+       numberArray.map((numberArray, index) => (
+        <div className="Numbers" key={index}>{numberArray}</div>
        ))
      )
   }
@@ -169,7 +169,7 @@ function NumbersGame(){
           value={bigNums}
           onChange={changeBigNums}
         >
-          <FormControlLabel value="0" control={<WhiteRadio />} checked="true" label="Zero" />
+          <FormControlLabel value="0" control={<WhiteRadio />} label="Zero" />
           <FormControlLabel value="1" control={<WhiteRadio />} label="One" />
           <FormControlLabel value="2" control={<WhiteRadio />} label="Two" />
         </RadioGroup>

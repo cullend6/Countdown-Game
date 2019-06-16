@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import CountdownMusic from '../TheCountdownClock.mp3'
-//import Sound from 'react-sound';
-
+//import CountdownMusic from '../TheCountdownClock.mp3'
 
 function Timer() {
     const [time, setTime] = useState(30);
     const [output, setOutput] = useState("");
+    const [userAnswer, setUserAnswer] = useState('');
 
     useEffect(() => {
 
@@ -28,24 +27,15 @@ function Timer() {
       setTime(time-1);
       setOutput(time);
      }
-   
-     function playAudio(){
-       
-      let sound = new Audio(CountdownMusic);
-
-      let soundPromise = sound.play();
-
-      soundPromise.then(() => console.log("playing")).catch((err) => console.log(err));
-
+     
+     function handeChange(e){
+         setUserAnswer(e.target.value);
      }
 
 
      return (
-        <div className="TimerText">
+         <div>
           {output}
-
-          
-
         </div>
     )
 }  
