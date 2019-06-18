@@ -5,11 +5,13 @@ export default function WordChecker(props) {
 
     const [answerIsValid, setAnswerIsValid] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [wordIsValid, setWordIsValid] = useState(false);
 
     useEffect(() => {
-        console.log(props.answer);
-        console.log("effect");
-        checkWordExists(props.answer);
+        checkWordIsValid(props);
+        if(wordIsValid){
+            checkWordExists(props.answer);
+        }
     })
 
     function checkWordExists(word){
@@ -31,6 +33,32 @@ export default function WordChecker(props) {
             
     }
 
+    function checkWordIsValid(props){
+        let lettersArray = props.letters.split("");
+        let lettersUsed = lettersArray.map(() => false);
+
+        for(let i=0; i<props.answer.length; i++){
+            let charValid = false;
+            for(let j=0; j<lettersArray.length; j++){
+                if(props.answer.charAt(i) === lettersArray[j] && !lettersUsed[j] ){
+                    charValid = true;
+                    lettersUsed[j] = true;
+                    j=lettersArray.length;
+                }
+            }
+
+            if(!charValid){
+                setWordIsValid(false);
+                setIsLoading(false);
+                return ;
+            }
+        }
+
+        setWordIsValid(true);
+
+        console.log(lettersUsed);
+    }
+
     function displayWord(answer){
         return (
             answerIsValid ? <h1>{answer} is a word</h1> : <h1>{answer} is not a word</h1> 
@@ -39,7 +67,8 @@ export default function WordChecker(props) {
 
     return (
         <div>
-            {isLoading ? 'Loading' : displayWord(props.answer) }           
+            {isLoading ? 'Loading' : 
+                 !wordIsValid ? "The word entered is not valid" : displayWord(props.answer)}           
         </div>
     )
 }

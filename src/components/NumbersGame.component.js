@@ -8,7 +8,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-
+import Button from '@material-ui/core/Button';
 
 function NumbersGame(){
 
@@ -175,21 +175,21 @@ function NumbersGame(){
         </RadioGroup>
       </FormControl>
       <br />
-      <input type="submit" className="Button" onClick={numbersSubmitted} value="Go"></input>
+      <Button type="submit" color='inherit' className="Button" onClick={numbersSubmitted}>Go</Button>
 
       <br />
       <br />
       {listHasBeenGenerated ? renderNumbers() : null}
 
-      {listHasBeenGenerated ? <div><button className="Button" onClick={createProblem}>Create target</button></div> : null }
+      {listHasBeenGenerated ? <div><Button className="Button" color='inherit' onClick={createProblem}>Create target</Button></div> : null }
       
       {targetHasBeenGenerated ? target : null}
       
-      {targetHasBeenGenerated ? <div><button className="Button" onClick={() => setAnswerShouldBeShown(!answerShouldBeShown)}>{answerShouldBeShown ? "Hide" : "Show"} Answer</button></div> : null }
+      {targetHasBeenGenerated ? <div><Button className="Button" color='inherit' onClick={() => setAnswerShouldBeShown(!answerShouldBeShown)}>{answerShouldBeShown ? "Hide" : "Show"} Answer</Button></div> : null }
 
       {answerShouldBeShown ? <div className="Answer">{solution}</div> : null }
 
-      {targetHasBeenGenerated ? <div><button className="Button" onClick={() => setTimerShouldBeDisplayed(!timerShouldBeDisplayed)}>{timerShouldBeDisplayed ? "Stop" : "Start"} Timer</button></div> : null}
+      {targetHasBeenGenerated ? <div><Button className="Button" color='inherit' onClick={() => setTimerShouldBeDisplayed(!timerShouldBeDisplayed)}>{timerShouldBeDisplayed ? "Stop" : "Start"} Timer</Button></div> : null}
 
       {timerShouldBeDisplayed ? startTimer() : null}
 

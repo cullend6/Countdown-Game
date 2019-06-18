@@ -2,15 +2,13 @@ import React, { useState } from 'react'
 import Timer from './Timer.component';
 import WordChecker from './WordChecker.component';
 import CountdownMusic from "../TheCountdownClock.mp3"
-import axios from 'axios';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 export default function LettersGame() {
 
     const [letters, setLetters] = useState('');
     const [userAnswer , setUserAnswer] = useState('');
-    const [submittedAnswer, setSubmittedAnswer] = useState('');
-    const [answerIsValid, setAnswerIsValid] = useState(false);
-    const [checkingWord, setCheckingWord] = useState(false);
 
     const [timerShouldBeDisplayed, setTimerShouldBeDisplayed] = useState(false);
     const [answerHasBeenSubmitted, setAnswerHasBeenSubmitted] = useState(false);
@@ -34,7 +32,14 @@ export default function LettersGame() {
         setUserAnswer(e.target.value);
     }
 
+    function handleReset(){
+        setLetters('');
+        setTimerShouldBeDisplayed(false);
+        setAnswerHasBeenSubmitted(false);
+    }
+
     function checkWordButtonClick(){
+        setTimerShouldBeDisplayed(false);
         setAnswerHasBeenSubmitted(true);
     }
 
@@ -57,24 +62,28 @@ export default function LettersGame() {
             { letters.length < 9 ?
                 <div>
                     <br />
-                    <button onClick={addVowel} className='Button'>Add Vowel</button>
-                    <button onClick={addConsonant} className='Button'>Add Consonant</button>
+                    <Button onClick={addVowel} className='Button' color='inherit'>Add Vowel</Button>
+                    <Button onClick={addConsonant} className='Button' color='inherit'>Add Consonant</Button>
                 </div> : 
                 <div>
                     <br />
-                    <button className='Button' onClick={() => setTimerShouldBeDisplayed(!timerShouldBeDisplayed)}>{timerShouldBeDisplayed ? "Stop" : "Start" } Timer</button>
+                    <Button className='Button' color='inherit' onClick={() => setTimerShouldBeDisplayed(!timerShouldBeDisplayed)}>{timerShouldBeDisplayed ? "Stop" : "Start" } Timer</Button>
                 </div>}
                 { timerShouldBeDisplayed ? 
                     <div>
                         {startTimer()}
-                        <input type="text" onChange={handleChange}></input>
-                        <br />
-                        <button className='Button' onClick={checkWordButtonClick}>Check Word</button>
                     </div>  :
                     null
                 }
+                { timerShouldBeDisplayed && !answerHasBeenSubmitted ?
+                    <div>
+                        <TextField onChange={handleChange} inputProps={{style: {fontsize: 40}}}></TextField>
+                        <br />
+                        <Button className='Button' color='inherit' onClick={checkWordButtonClick}>Check Word</Button>
+                    </div> : null
+                }
                 {answerHasBeenSubmitted ? <WordChecker answer={userAnswer} letters={letters}/> : null}
-                <button className='Button' onClick={() => setLetters('')}>Reset</button>
+                <Button className='Button' color='inherit' onClick={handleReset}>Reset</Button>
         </div>
     )
 }
