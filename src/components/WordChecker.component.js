@@ -34,13 +34,15 @@ export default function WordChecker(props) {
     }
 
     function checkWordIsValid(props){
-        let lettersArray = props.letters.split("");
+        let lettersArray = props.letters.toUpperCase().split("");
         let lettersUsed = lettersArray.map(() => false);
 
-        for(let i=0; i<props.answer.length; i++){
+        let userAnswer = props.answer.toUpperCase();
+
+        for(let i=0; i<userAnswer.length; i++){
             let charValid = false;
             for(let j=0; j<lettersArray.length; j++){
-                if(props.answer.charAt(i) === lettersArray[j] && !lettersUsed[j] ){
+                if(userAnswer.charAt(i) === lettersArray[j] && !lettersUsed[j] ){
                     charValid = true;
                     lettersUsed[j] = true;
                     j=lettersArray.length;
@@ -55,8 +57,6 @@ export default function WordChecker(props) {
         }
 
         setWordIsValid(true);
-
-        console.log(lettersUsed);
     }
 
     function displayWord(answer){

@@ -52,14 +52,12 @@ export default function NavTabs() {
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs variant="fullWidth" value={value} onChange={handleChange}>
-          <LinkTab label="Greeting"/>
-          <LinkTab label="Letters"/>
           <LinkTab label="Numbers"/>
+          <LinkTab label="Letters"/>
         </Tabs>
       </AppBar>
-      {value === 0 && <TabContainer></TabContainer>}
+      {value === 0 && <TabContainer><NumbersGame /></TabContainer>}
       {value === 1 && <TabContainer><LettersGame /></TabContainer>}
-      {value === 2 && <TabContainer><NumbersGame /></TabContainer>}
     </div>
   );
 }

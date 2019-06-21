@@ -13,8 +13,8 @@ export default function LettersGame() {
     const [timerShouldBeDisplayed, setTimerShouldBeDisplayed] = useState(false);
     const [answerHasBeenSubmitted, setAnswerHasBeenSubmitted] = useState(false);
 
-    const consonants = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z'];
-    const vowels = ['a','e','i','o','u'];
+    const consonants = ['B','C','D','F','G','H','J','K','L','M','N','P','Q','R','S','T','V','W','X','Y','Z'];
+    const vowels = ['A','E','I','O','U'];
 
     function addVowel(){
         let vowel = vowels[Math.floor(Math.random()*5)];
@@ -58,7 +58,6 @@ export default function LettersGame() {
 
     return (
         <div>
-            { letters.length === 0 ? null : <div className='Numbers'>{letters}</div> } 
             { letters.length < 9 ?
                 <div>
                     <br />
@@ -69,6 +68,7 @@ export default function LettersGame() {
                     <br />
                     <Button className='Button' color='inherit' onClick={() => setTimerShouldBeDisplayed(!timerShouldBeDisplayed)}>{timerShouldBeDisplayed ? "Stop" : "Start" } Timer</Button>
                 </div>}
+                { letters.length === 0 ? null : <div className='Numbers'>{letters}</div> } 
                 { timerShouldBeDisplayed ? 
                     <div>
                         {startTimer()}
@@ -83,6 +83,7 @@ export default function LettersGame() {
                     </div> : null
                 }
                 {answerHasBeenSubmitted ? <WordChecker answer={userAnswer} letters={letters}/> : null}
+                <br />
                 <Button className='Button' color='inherit' onClick={handleReset}>Reset</Button>
         </div>
     )
