@@ -17,6 +17,7 @@ export default function Footer(props) {
                     Once your numbers have been given, you can create a target. <br />
                     This target is always attainable by using the given numbers and basic mathematical operators. <br />
                     Once the target has been created you may start a 30 second timer. <br />
+                    You can then enter you answer, which will be checked to see if you are correct. <br />
                     There is also a button to reveal the solution.
                 </div>
             )

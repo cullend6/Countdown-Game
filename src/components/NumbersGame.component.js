@@ -33,6 +33,7 @@ function NumbersGame(){
 
     const [listHasBeenGenerated, setListHasBeenGenerated] = useState(false);
     const [targetHasBeenGenerated, setTargetHasBeenGenerated] = useState(false);
+    const [timerButtonShouldBeDisplayed, setTimerButtonShouldBeDisplayed] = useState(false); 
     const [answerShouldBeShown, setAnswerShouldBeShown] = useState(false);
     const [timerShouldBeDisplayed, setTimerShouldBeDisplayed] = useState(false);
     const [answerHasBeenSubmitted, setAnswerHasBeenSubmitted] = useState(false);
@@ -60,6 +61,7 @@ function NumbersGame(){
       setTargetHasBeenGenerated(false);
       setAnswerShouldBeShown(false);
       setTimerShouldBeDisplayed(false);
+      setTimerButtonShouldBeDisplayed(false);
       setAnswerHasBeenSubmitted(false);
     }
 
@@ -108,6 +110,7 @@ function NumbersGame(){
 
       //Show new buttons
       setTargetHasBeenGenerated(true);
+      setTimerButtonShouldBeDisplayed(true);
 
       //Revert progress
       setAnswerShouldBeShown(false);
@@ -122,7 +125,7 @@ function NumbersGame(){
 
     function checkAnswer(){
       setAnswerHasBeenSubmitted(true);
-      setTargetHasBeenGenerated(false);
+      setTimerButtonShouldBeDisplayed(false);
     }
 
     function playAudio() {
@@ -203,7 +206,7 @@ function NumbersGame(){
           {targetHasBeenGenerated ? target : null}
         </div>  
         <div>
-          {targetHasBeenGenerated ? <div><Button className="Button" color='inherit' onClick={() => setTimerShouldBeDisplayed(!timerShouldBeDisplayed)}>{timerShouldBeDisplayed ? "Stop" : "Start"} Timer</Button><br /></div> : null}
+          {timerButtonShouldBeDisplayed ? <div><Button className="Button" color='inherit' onClick={() => setTimerShouldBeDisplayed(!timerShouldBeDisplayed)}>{timerShouldBeDisplayed ? "Stop" : "Start"} Timer</Button><br /></div> : null}
         </div>
         <div className='RightSideTextNumbers'>
           {timerShouldBeDisplayed && !answerHasBeenSubmitted ? startTimer() : null}
