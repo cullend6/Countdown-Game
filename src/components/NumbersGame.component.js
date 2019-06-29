@@ -9,153 +9,167 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import NumberAnswerChecker from './NumberAnswerChecker.component';
 
 function NumbersGame(){
 
-  const WhiteRadio = withStyles({
-    root: {
-      color: grey[50],
-      '&$checked': {
+    const WhiteRadio = withStyles({
+      root: {
         color: grey[50],
+        '&$checked': {
+          color: grey[50],
+        },
       },
-    },
-    checked: {},
-  })(props => <Radio color="default" {...props} />);
+      checked: {},
+    })(props => <Radio color="default" {...props} />);
 
-  const [numberArray, setNumberArray] = useState([]);
-  const [bigNums, setBigNums] = useState(0);
-  const [solution, setSolution] = useState("");
-  const [target, setTarget] = useState(0);
-
-
-  const [listHasBeenGenerated, setListHasBeenGenerated] = useState(false);
-  const [targetHasBeenGenerated, setTargetHasBeenGenerated] = useState(false);
-  const [answerShouldBeShown, setAnswerShouldBeShown] = useState(false);
-  const [timerShouldBeDisplayed, setTimerShouldBeDisplayed] = useState(false);
-
-  const operators = ["+","-","/","*"];
-
-  function numbersSubmitted(e){
-    e.preventDefault();
-
-    const bigNumberChoices = [10, 25, 50, 75, 100];
-
-    if (+bigNums === 2){
-      setNumberArray([bigNumberChoices[Math.floor(Math.random() * 5)], bigNumberChoices[Math.floor(Math.random() * 5)],Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
-    }
-    else if (+bigNums === 1){
-      setNumberArray([bigNumberChoices[Math.floor(Math.random() * 5)],Math.ceil(Math.random() * 9) ,Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
-    }
-    else {
-      setNumberArray([Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
-    }
-
-    setListHasBeenGenerated(true);
-
-    //Revert Progress
-    setTargetHasBeenGenerated(false);
-    setAnswerShouldBeShown(false);
-    setTimerShouldBeDisplayed(false);
-  }
+    const [numberArray, setNumberArray] = useState([]);
+    const [bigNums, setBigNums] = useState(0);
+    const [solution, setSolution] = useState('');
+    const [target, setTarget] = useState(0);
+    const [answer, setAnswer] = useState('');
 
 
-  function createProblem(){
-    let isValidated = false;
-    let expression = "";
+    const [listHasBeenGenerated, setListHasBeenGenerated] = useState(false);
+    const [targetHasBeenGenerated, setTargetHasBeenGenerated] = useState(false);
+    const [answerShouldBeShown, setAnswerShouldBeShown] = useState(false);
+    const [timerShouldBeDisplayed, setTimerShouldBeDisplayed] = useState(false);
+    const [answerHasBeenSubmitted, setAnswerHasBeenSubmitted] = useState(false);
 
-    while(!isValidated){
+    const operators = ["+","-","/","*"];
 
-      expression = "";
-      
-      let amountUsed = (Math.round(Math.random() * 2) + 4);
-  
-      let hasNumBeenUsed = [false, false, false, false, false, false];
-  
-      for(let i=0; i < amountUsed; i++){
-        let number = Math.floor(Math.random() * 6);
-  
-        while(hasNumBeenUsed[number]){
-          number = Math.floor(Math.random() * 6);
-        }
-  
-        const operator = Math.floor(Math.random() * 4);
-        
-  
-        if(i === 0){
-          expression = numberArray[number] + operators[operator];
-        } else if (i === (amountUsed-1)) {
-          expression += numberArray[number];
-        } else {
-          expression += (numberArray[number] + operators[operator])
-        }
-  
-        hasNumBeenUsed[number] = true;
-        
+    function numbersSubmitted(e){
+      e.preventDefault();
+
+      const bigNumberChoices = [10, 25, 50, 75, 100];
+
+      if (+bigNums === 2){
+        setNumberArray([bigNumberChoices[Math.floor(Math.random() * 5)], bigNumberChoices[Math.floor(Math.random() * 5)],Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
       }
-      let finalValue = eval(expression);
-      isValidated = (finalValue < 1000) && (finalValue > 100) && (Number.isInteger(finalValue));
+      else if (+bigNums === 1){
+        setNumberArray([bigNumberChoices[Math.floor(Math.random() * 5)],Math.ceil(Math.random() * 9) ,Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
+      }
+      else {
+        setNumberArray([Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9),Math.ceil(Math.random() * 9)]);
+      }
 
+      setListHasBeenGenerated(true);
+
+      //Revert Progress
+      setTargetHasBeenGenerated(false);
+      setAnswerShouldBeShown(false);
+      setTimerShouldBeDisplayed(false);
+      setAnswerHasBeenSubmitted(false);
     }
 
-    //Set Target and save solution
-    setTarget(eval(expression));
-    setSolution(expression);
 
-    //Show new buttons
-    setTargetHasBeenGenerated(true);
+    function createProblem(){
+      let isValidated = false;
+      let expression = "";
 
-    //Revert progress
-    setAnswerShouldBeShown(false);
-    setTimerShouldBeDisplayed(false);
+      while(!isValidated){
+
+        expression = "";
+        
+        let amountUsed = (Math.round(Math.random() * 2) + 4);
     
-  }
+        let hasNumBeenUsed = [false, false, false, false, false, false];
+    
+        for(let i=0; i < amountUsed; i++){
+          let number = Math.floor(Math.random() * 6);
+    
+          while(hasNumBeenUsed[number]){
+            number = Math.floor(Math.random() * 6);
+          }
+    
+          const operator = Math.floor(Math.random() * 4);
+          
+    
+          if(i === 0){
+            expression = numberArray[number] + operators[operator];
+          } else if (i === (amountUsed-1)) {
+            expression += numberArray[number];
+          } else {
+            expression += (numberArray[number] + operators[operator])
+          }
+    
+          hasNumBeenUsed[number] = true;
+          
+        }
+        let finalValue = eval(expression);
+        isValidated = (finalValue < 1000) && (finalValue > 100) && (Number.isInteger(finalValue));
 
+      }
 
-  function playAudio() {
-    let audio = new Audio("./TheCountdownClock.mp3");
-    let audioPromise = audio.play();    
+      //Set Target and save solution
+      setTarget(eval(expression));
+      setSolution(expression);
 
-    if (audioPromise !== undefined) {
-      console.log("Defined");
-      audioPromise.then(_ => {
-        console.log("Autoplay");
-      }).catch(error => {
-        console.log(error);
-      });
+      //Show new buttons
+      setTargetHasBeenGenerated(true);
+
+      //Revert progress
+      setAnswerShouldBeShown(false);
+      setTimerShouldBeDisplayed(false);
+      setAnswerHasBeenSubmitted(false);
+      
     }
-  }
-  
-  function startTimer(){
-    //playAudio();
 
-    return (
-      <Timer />
-    )
-  }
+    function handleChange(e){
+      setAnswer(e.target.value)
+    }
 
-  function playAudio(){
-       
-    let sound = new Audio(CountdownMusic);
+    function checkAnswer(){
+      setAnswerHasBeenSubmitted(true);
+      setTargetHasBeenGenerated(false);
+    }
 
-    let soundPromise = sound.play();
+    function playAudio() {
+      let audio = new Audio("./TheCountdownClock.mp3");
+      let audioPromise = audio.play();    
 
-    soundPromise.then(() => console.log("playing")).catch((err) => console.log(err));
+      if (audioPromise !== undefined) {
+        console.log("Defined");
+        audioPromise.then(_ => {
+          console.log("Autoplay");
+        }).catch(error => {
+          console.log(error);
+        });
+      }
+    }
+    
+    function startTimer(){
+      //playAudio();
 
-   }
+      return (
+        <Timer />
+      )
+    }
 
-  //take values from form and set state
-  function changeBigNums(e){
-    setBigNums(e.target.value);
-  }
+    function playAudio(){
+        
+      let sound = new Audio(CountdownMusic);
 
-  //render hidden numbers
-  function renderNumbers(){  
-     return ( 
-       numberArray.map((numberArray, index) => (
-        <div className="Numbers" key={index}>{numberArray}</div>
-       ))
-     )
-  }
+      let soundPromise = sound.play();
+
+      soundPromise.then(() => console.log("playing")).catch((err) => console.log(err));
+
+    }
+
+    //take values from form and set state
+    function changeBigNums(e){
+      setBigNums(e.target.value);
+    }
+
+    //render hidden numbers
+    function renderNumbers(){  
+      return ( 
+        numberArray.map((numberArray, index) => (
+          <div className="Numbers" key={index}>{numberArray}</div>
+        ))
+      )
+    }
 
   return (
     <div className="NumbersWrapper">
@@ -192,8 +206,18 @@ function NumbersGame(){
           {targetHasBeenGenerated ? <div><Button className="Button" color='inherit' onClick={() => setTimerShouldBeDisplayed(!timerShouldBeDisplayed)}>{timerShouldBeDisplayed ? "Stop" : "Start"} Timer</Button><br /></div> : null}
         </div>
         <div className='RightSideTextNumbers'>
-          {timerShouldBeDisplayed ? startTimer() : null}
+          {timerShouldBeDisplayed && !answerHasBeenSubmitted ? startTimer() : null}
         </div>
+        <div>
+          {timerShouldBeDisplayed && !answerHasBeenSubmitted  ? <TextField onChange={handleChange}></TextField> : null}
+        </div>
+        <div>
+          {timerShouldBeDisplayed && !answerHasBeenSubmitted  ? <Button className='Button' color='inherit' onClick={checkAnswer}>Submit Answer</Button> : null}
+        </div>
+        <div>
+          {answerHasBeenSubmitted ? <NumberAnswerChecker numbers={numberArray} answer={answer} target={target} /> : null}
+        </div>
+        <div></div>
           {targetHasBeenGenerated ? <div><Button className="Button" color='inherit' onClick={() => setAnswerShouldBeShown(!answerShouldBeShown)}>{answerShouldBeShown ? "Hide" : "Show"} Answer</Button><br /></div> : null }
         <div className='RightSideTextNumbers'>
           {answerShouldBeShown ? solution : null }

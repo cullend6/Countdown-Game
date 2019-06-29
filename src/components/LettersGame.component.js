@@ -77,7 +77,7 @@ export default function LettersGame() {
                 }
                 { timerShouldBeDisplayed && !answerHasBeenSubmitted ?
                     <div>
-                        <TextField onChange={handleChange} inputProps={{style: {fontsize: 40}}}></TextField>
+                        <TextField onChange={handleChange}></TextField>
                         <br />
                         <Button className='Button' color='inherit' onClick={checkWordButtonClick}>Check Word</Button>
                     </div> : null
