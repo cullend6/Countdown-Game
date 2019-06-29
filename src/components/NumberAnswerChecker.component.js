@@ -17,7 +17,7 @@ export default function NumberAnswerChecker(props) {
     function checkAnswer(){
         let numbersArray = props.numbers;
         let numbersUsed = numbersArray.map(() => false);
-        let userAnswer = props.answer.split(/[+,\-,*,/]/);
+        let userAnswer = props.answer.split(/[+,\-,*,/,(,)]/);
 
         console.log(userAnswer);
         for(let i=0; i<userAnswer.length; i++){
@@ -28,6 +28,9 @@ export default function NumberAnswerChecker(props) {
                     charValid = true;
                     numbersUsed[j] = true;
                     j=numbersArray.length;
+                } else if (userAnswer[i] == '') {
+                    charValid=true;
+                    j=numbersArray.length;
                 }
             }
 
@@ -35,7 +38,7 @@ export default function NumberAnswerChecker(props) {
                 setAnswerIsValid(false);
                 setIsLoading(false);
                 return ;
-            }
+            } 
         }
 
         setAnswerIsValid(true);
