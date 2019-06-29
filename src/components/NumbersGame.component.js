@@ -158,41 +158,46 @@ function NumbersGame(){
   }
 
   return (
-    <div className="App">
+    <div className="NumbersWrapper">
+      <div>
+        <h3>Choose Big Numbers</h3>
 
-    <h3>Choose Big Numbers</h3>
-
-      <FormControl component="fieldset">
-        <RadioGroup
-          aria-label="Big Numbers"
-          name="bignumbers"
-          value={bigNums}
-          onChange={changeBigNums}
-        >
-          <FormControlLabel value="0" control={<WhiteRadio />} label="Zero" />
-          <FormControlLabel value="1" control={<WhiteRadio />} label="One" />
-          <FormControlLabel value="2" control={<WhiteRadio />} label="Two" />
-        </RadioGroup>
-      </FormControl>
-      <br />
-      <Button type="submit" color='inherit' className="Button" onClick={numbersSubmitted}>Go</Button>
-
-      <br />
-      <br />
-      {listHasBeenGenerated ? renderNumbers() : null}
-
-      {listHasBeenGenerated ? <div><Button className="Button" color='inherit' onClick={createProblem}>Create target</Button></div> : null }
-      
-      {targetHasBeenGenerated ? target : null}
-      
-      {targetHasBeenGenerated ? <div><Button className="Button" color='inherit' onClick={() => setAnswerShouldBeShown(!answerShouldBeShown)}>{answerShouldBeShown ? "Hide" : "Show"} Answer</Button></div> : null }
-
-      {answerShouldBeShown ? <div className="Answer">{solution}</div> : null }
-
-      {targetHasBeenGenerated ? <div><Button className="Button" color='inherit' onClick={() => setTimerShouldBeDisplayed(!timerShouldBeDisplayed)}>{timerShouldBeDisplayed ? "Stop" : "Start"} Timer</Button></div> : null}
-
-      {timerShouldBeDisplayed ? startTimer() : null}
-
+          <FormControl component="fieldset">
+            <RadioGroup
+              aria-label="Big Numbers"
+              name="bignumbers"
+              value={bigNums}
+              onChange={changeBigNums}
+            >
+              <FormControlLabel value="0" control={<WhiteRadio />} label="Zero" />
+              <FormControlLabel value="1" control={<WhiteRadio />} label="One" />
+              <FormControlLabel value="2" control={<WhiteRadio />} label="Two" />
+            </RadioGroup>
+          </FormControl>
+          <br />
+          <Button type="submit" color='inherit' className="Button" onClick={numbersSubmitted}>Go</Button>
+        </div>
+        <div>
+          <br />
+          <br />
+          {listHasBeenGenerated ? renderNumbers() : null}
+        </div>
+        <div>
+          {listHasBeenGenerated ? <div><Button className="Button" color='inherit' onClick={createProblem}>Create target</Button></div> : null }
+        </div>
+        <div className='RightSideTextNumbers'>
+          {targetHasBeenGenerated ? target : null}
+        </div>  
+        <div>
+          {targetHasBeenGenerated ? <div><Button className="Button" color='inherit' onClick={() => setTimerShouldBeDisplayed(!timerShouldBeDisplayed)}>{timerShouldBeDisplayed ? "Stop" : "Start"} Timer</Button><br /></div> : null}
+        </div>
+        <div className='RightSideTextNumbers'>
+          {timerShouldBeDisplayed ? startTimer() : null}
+        </div>
+          {targetHasBeenGenerated ? <div><Button className="Button" color='inherit' onClick={() => setAnswerShouldBeShown(!answerShouldBeShown)}>{answerShouldBeShown ? "Hide" : "Show"} Answer</Button><br /></div> : null }
+        <div className='RightSideTextNumbers'>
+          {answerShouldBeShown ? solution : null }
+        </div>
     </div>
   );
 

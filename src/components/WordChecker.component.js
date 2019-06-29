@@ -17,7 +17,6 @@ export default function WordChecker(props) {
     function checkWordExists(word){
         axios.get('https://dictionaryapi.com/api/v3/references/collegiate/json/'+ word +'?key=8169f5d1-0b8a-4fb1-9e57-9ec6fb8141d7')
             .then(response => {
-                console.log(response);
                 if(!response.data[0].meta){
                     setAnswerIsValid(false);
                     setIsLoading(false);

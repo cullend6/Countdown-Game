@@ -11,7 +11,6 @@ function App() {
   return (
       <div className="App">
         <NavTabs />
-        <h1 className="Title">COUNTDOWN</h1>     
       </div>
   );
 }

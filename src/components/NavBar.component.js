@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import NumbersGame from './NumbersGame.component';
 import LettersGame from './LettersGame.component';
+import Footer from './Footer.component';
 
 function TabContainer(props) {
   return (
@@ -58,6 +59,7 @@ export default function NavTabs() {
       </AppBar>
       {value === 0 && <TabContainer><NumbersGame /></TabContainer>}
       {value === 1 && <TabContainer><LettersGame /></TabContainer>}
+      <Footer game={value} />
     </div>
   );
 }
