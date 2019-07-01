@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import NumbersGame from './NumbersGame.component';
 import LettersGame from './LettersGame.component';
 import Footer from './Footer.component';
+import SignOutButton from './SignOutButton.component';
 
 function TabContainer(props) {
   return (
@@ -60,6 +61,7 @@ export default function NavTabs() {
       {value === 0 && <TabContainer><NumbersGame /></TabContainer>}
       {value === 1 && <TabContainer><LettersGame /></TabContainer>}
       <Footer game={value} />
+      <SignOutButton/>
     </div>
   );
 }
