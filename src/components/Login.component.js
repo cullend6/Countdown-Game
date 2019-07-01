@@ -17,9 +17,6 @@ export default function Login() {
 
     function handleLogin(){
 
-
-        setIsLoading(true);
-
         firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
             setEmail('');
         })
@@ -34,14 +31,12 @@ export default function Login() {
             setErrorMessage(errorMessage);
         });
 
-        setIsLoading(false);
     }
 
     function handleCreateUser(){
 
-        setIsLoading(true);
-
         if(password !== passwordValidation){
+            setErrorMessage('The two entered passwords do not match.')
             return;
         }
 
@@ -50,11 +45,10 @@ export default function Login() {
             var errorCode = error.code;
             var errorMessage = error.message;
 
-            console.log(errorMessage);
+            setErrorMessage(errorMessage);
             // ...
           });
 
-          setIsLoading(false);
     }
 
     function handleEmailChange(e){
