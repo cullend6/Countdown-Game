@@ -8,7 +8,7 @@
     "@types/node": "^12.0.4",
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "firebase": "^6.2.4",
     "re-base": "^4.0.0",
